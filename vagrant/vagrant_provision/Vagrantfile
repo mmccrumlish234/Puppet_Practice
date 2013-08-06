@@ -1,0 +1,13 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant::Config.run do |config|
+
+  config.vm.define :test do |test_config|
+  test_config.vm.box = "precise32"
+  test_config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  test_config.vm.customize ["modifyvm", :id, "--memory", 512]
+  test_config.vm.provision :shell, :path => "vagrant.sh"
+  end
+  
+end
