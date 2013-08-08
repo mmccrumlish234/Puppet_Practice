@@ -3,12 +3,27 @@
 
 Vagrant::Config.run do |config|
 
-  config.vm.box = "precise32"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
-  config.vm.host_name = ENV['VAGRANT_HOSTNAME'] || 'vm.puppet'
-  config.vm.customize ["modifyvm", :id, "--memory", 1024]
-  config.vm.customize ["modifyvm", :id, "--cpus", 2]
-  config.vm.share_folder "puppet", "/Puppet_Practice", "../.."
-  config.vm.provision :shell, :path => "vagrant.sh"
-  
+  config.vm.define :web do |web_config|
+    web_config.vm.box = "precise32"
+    web_config.vm.forward_port 80, 3000
+    web_config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+    web_config.vm.host_name = ENV['VAGRANT_HOSTNAME'] || 'WebHost-vm.puppet'
+    web_config.vm.customize ["modifyvm", :id, "--memory", 512]
+    web_config.vm.customize ["modifyvm", :id, "--cpus", 2]
+    web_config.vm.share_folder "puppet", "/Puppet_Practice", "../.."
+    web_config.vm.network :hostonly, "192.168.83.10"
+    web_config.vm.provision :shell, :path => "vagrant_web.sh"
+  end
+
+  config.vm.define :db do |db_config|
+    db_config.vm.box = "precise32"
+    db_config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+   # db_config.vm.host_name = ENV['VAGRANT_HOSTNAME'] || 'DBHost-vm.puppet'
+    db_config.vm.customize ["modifyvm", :id, "--memory", 512]
+	db_config.vm.customize ["modifyvm", :id, "--cpus", 2]
+    db_config.vm.share_folder "puppet", "/Puppet_Practice", "../.."
+    db_config.vm.network :hostonly, "192.168.83.11"
+    db_config.vm.provision :shell, :path => "vagrant_db.sh"
+  end
+
 end

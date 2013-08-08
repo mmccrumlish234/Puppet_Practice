@@ -2,7 +2,7 @@
 
     file {'/tmp/test1':
       ensure  => file,
-      content => "Hi.",
+      content => "Hi Mick!.",
     }
 
     file {'/tmp/test2':
@@ -20,5 +20,4 @@
     }
 
     notify {"I'm notifying you.":}
-    notify {"So am I!!!!":}
-    notify {"GitHub testing":}  
+    notify {"So am I!":}
